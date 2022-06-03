@@ -4,6 +4,10 @@ debug/*
 *.DS_Store
 *.json
 *.mat
+*.png
+*.jpg
+*.jpeg
+*.txt
 src/.vscode/*
 preds/*
 *.h5

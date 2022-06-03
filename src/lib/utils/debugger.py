@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import numpy as np
 import cv2
 from .ddd_utils import compute_box_3d, project_to_image, draw_box_3d
@@ -62,6 +63,12 @@ class Debugger(object):
       self.focal_length = 721.5377
       self.W = 1242
       self.H = 375
+    elif dataset == 'coco_cd':
+      self.names = ['forground']
+      self.focal_length = 59.35
+      self.W = 1080
+      self.H = 1920
+      self.dim_scale = 3
     num_classes = len(self.names)
     self.down_ratio=down_ratio
     # for bird view
@@ -237,13 +244,18 @@ class Debugger(object):
     cv2.imwrite(path + '{}.png'.format(imgId), self.imgs[imgId])
     
   def save_all_imgs(self, path='./cache/debug/', prefix='', genID=False):
+    os.makedirs(path, exist_ok=True)
     if genID:
       try:
         idx = int(np.loadtxt(path + '/id.txt'))
       except:
         idx = 0
       prefix=idx
+      if not os.path.exists(os.path.join(path, 'id.txt')):
+        with open(os.path.join(path, 'id.txt'), 'w') as f:
+          f.write(str(idx))
       np.savetxt(path + '/id.txt', np.ones(1) * (idx + 1), fmt='%d')
+
     for i, v in self.imgs.items():
       cv2.imwrite(path + '/{}{}.png'.format(prefix, i), v)
 
