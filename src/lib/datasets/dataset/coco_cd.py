@@ -18,7 +18,7 @@ class COCOCD(data.Dataset):
 
   def __init__(self, opt, split):
     super(COCOCD, self).__init__()
-    self.data_dir = os.path.join(opt.data_dir, 'coco_cd')
+    self.data_dir = os.path.join(opt.data_dir, opt.folder_name)
     self.img_dir = os.path.join(self.data_dir, '{}2017'.format(split))
     if split == 'test':
       self.annot_path = os.path.join(
